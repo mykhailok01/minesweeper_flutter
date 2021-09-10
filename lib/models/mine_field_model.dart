@@ -9,11 +9,16 @@ class MineFieldModel with ChangeNotifier {
       : _cells = List.filled(
           rows,
           List.filled(columns, Cells.empty),
-        );
+        ) {
+    assert(_cells.isNotEmpty);
+    assert(_cells.first.isNotEmpty);
+  }
   UnmodifiableListView<UnmodifiableListView<int>> get cells =>
       UnmodifiableListView(
         _cells.map(
           (e) => UnmodifiableListView(e),
         ),
       );
+  int get rowCount => cells.length;
+  int get columnCount => cells.first.length;
 }
