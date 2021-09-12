@@ -2,7 +2,7 @@ import 'package:minesweeper_in_flutter/models/cells.dart';
 import 'package:minesweeper_in_flutter/models/bomb_plant_advisor.dart';
 import 'package:minesweeper_in_flutter/utility.dart';
 
-class FieldLocationInfo {
+class MinesLocationInfo {
   final int rows;
   final int columns;
   final int bombs;
@@ -21,20 +21,20 @@ class FieldLocationInfo {
         var position = _advisor.suggestNextPosition();
         planted = _tryPlantBomb(position.row, position.column);
         if (planted) {
-          _bombAround(position.row, position.column);
+          _indicateBombAround(position.row, position.column);
           break;
         }
       } while (true);
     }
   }
 
-  void _bombAround(int row, int column) {
+  void _indicateBombAround(int row, int column) {
     transformSurrounding(_cells, row, column, (row, column) {
       if (isNotBomb(row, column)) _cells[row][column]++;
     });
   }
 
-  FieldLocationInfo.generate(
+  MinesLocationInfo.generate(
       {required this.rows,
       required this.columns,
       required this.bombs,
@@ -46,5 +46,5 @@ class FieldLocationInfo {
 
   bool isBomb(int row, int column) => _cells[row][column] == Cells.bomb;
   bool isNotBomb(int row, int column) => !isBomb(row, column);
-  int bombsAround(int row, int column) => _cells[row][column];
+  int getCellInfo(int row, int column) => _cells[row][column];
 }

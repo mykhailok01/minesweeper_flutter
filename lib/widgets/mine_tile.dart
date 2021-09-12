@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minesweeper_in_flutter/models/cells.dart';
-import 'package:minesweeper_in_flutter/models/mine_field_model.dart';
+import 'package:minesweeper_in_flutter/models/minesweeper_game.dart';
 import 'package:provider/provider.dart';
 
 class MineTile extends StatelessWidget {
@@ -13,10 +13,10 @@ class MineTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var field = context.watch<MineFieldModel>();
-    var value = field.cell(row, column);
+    var field = context.watch<MinesweeperGame>();
+    var value = field.cellInfo(row, column);
     return GestureDetector(
-      onTap: () => field.openCell(row, column),
+      onTap: () => field.discloseCell(row, column),
       child: Container(
         color: value == Cells.closed
             ? Colors.lightBlue.shade300

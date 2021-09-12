@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:minesweeper_in_flutter/widgets/mine_tile_field.dart';
+import 'package:minesweeper_in_flutter/widgets/minesweeper_field.dart';
+import 'package:minesweeper_in_flutter/widgets/game_appbar.dart';
 
 class GamePage extends StatelessWidget {
   const GamePage({Key? key}) : super(key: key);
@@ -8,9 +9,9 @@ class GamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: GameAppBar(),
         body: Center(
-          child: MineTileField(),
+          child: MinesweeperField(),
         ),
       ),
     );

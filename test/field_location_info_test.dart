@@ -1,17 +1,17 @@
 import 'package:test/test.dart';
-import 'package:minesweeper_in_flutter/models/field_location_info.dart';
+import 'package:minesweeper_in_flutter/models/mines_location_info.dart';
 import 'package:minesweeper_in_flutter/models/cells.dart';
 import 'package:minesweeper_in_flutter/models/bomb_plant_advisor.dart';
 import 'predetermined_bomb_plant_advisor.dart';
 
 void check(
-    {required FieldLocationInfo field, required List<List<int>> values}) {
+    {required MinesLocationInfo field, required List<List<int>> values}) {
   expect(field.rows, equals(values.length));
   expect(field.columns, equals(values.first.length));
   for (int row = 0; row < field.rows; ++row)
     for (int column = 0; column < field.columns; ++column)
       expect(
-        field.bombsAround(row, column),
+        field.getCellInfo(row, column),
         equals(
           values[row][column],
         ),
@@ -23,7 +23,7 @@ void main() {
   group('FieldLocationInfo', () {
     test('size (3,3) bomb in the middle', () {
       check(
-          field: FieldLocationInfo.generate(
+          field: MinesLocationInfo.generate(
             rows: 3,
             columns: 3,
             bombs: 1,
@@ -39,7 +39,7 @@ void main() {
     });
     test('size (3,3) no bomb in the middle', () {
       check(
-          field: FieldLocationInfo.generate(
+          field: MinesLocationInfo.generate(
             rows: 3,
             columns: 3,
             bombs: 8,
@@ -62,7 +62,7 @@ void main() {
     });
     test('size (5,5) diagonal bombs', () {
       check(
-          field: FieldLocationInfo.generate(
+          field: MinesLocationInfo.generate(
             rows: 5,
             columns: 5,
             bombs: 5,
