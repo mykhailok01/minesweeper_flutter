@@ -3,11 +3,11 @@ import 'package:minesweeper_in_flutter/models/cells.dart';
 import 'package:minesweeper_in_flutter/models/minesweeper_game.dart';
 import 'package:provider/provider.dart';
 
-class MineTile extends StatelessWidget {
+class FieldTile extends StatelessWidget {
   final int row;
   final int column;
   final double size;
-  const MineTile(
+  const FieldTile(
       {Key? key, required this.row, required this.column, required this.size})
       : super(key: key);
 

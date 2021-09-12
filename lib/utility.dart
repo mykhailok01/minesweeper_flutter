@@ -23,3 +23,9 @@ void transformSurrounding<T>(
   }
   if (column - 1 >= 0) func(row, column - 1);
 }
+
+void foreachElement<E>(List<List<E>> matrix, void Function(int, int) func) {
+  for (int row = 0; row < matrix.length; ++row)
+    for (int column = 0; column < matrix[row].length; ++column)
+      func(row, column);
+}

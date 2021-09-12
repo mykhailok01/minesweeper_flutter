@@ -1,15 +1,15 @@
-import 'package:minesweeper_in_flutter/models/mines_location_info.dart';
+import 'package:minesweeper_in_flutter/models/bombs_location_info.dart';
 import 'package:minesweeper_in_flutter/models/cells.dart';
 import 'package:minesweeper_in_flutter/utility.dart';
 
 class CellsStatusManager {
-  int get rows => info.rows;
-  int get columns => info.columns;
-  final MinesLocationInfo info;
-  CellsStatusManager({required this.info})
+  int get rows => locationInfo.rows;
+  int get columns => locationInfo.columns;
+  final BombsLocationInfo locationInfo;
+  CellsStatusManager({required this.locationInfo})
       : _cellsStatuses = List.generate(
-          info.rows,
-          (_) => List.filled(info.columns, Cells.closed),
+          locationInfo.rows,
+          (_) => List.filled(locationInfo.columns, Cells.closed),
         ) {
     assert(_cellsStatuses.isNotEmpty);
     assert(_cellsStatuses.first.isNotEmpty);
@@ -21,7 +21,7 @@ class CellsStatusManager {
       if (row < 0 || row >= rows) return;
       if (column < 0 || column >= columns) return;
       if (_cellsStatuses[row][column] != Cells.closed) return;
-      _cellsStatuses[row][column] = info.getCellInfo(row, column);
+      _cellsStatuses[row][column] = locationInfo.getCellInfo(row, column);
       ++discloseCount;
       if (_cellsStatuses[row][column] == Cells.empty) {
         transformSurrounding(_cellsStatuses, row, column, _discloseCellInfo);
@@ -31,6 +31,9 @@ class CellsStatusManager {
     _discloseCellInfo(row, column);
     return discloseCount;
   }
+
+  void resetStatuses() => foreachElement(_cellsStatuses,
+      (row, column) => _cellsStatuses[row][column] = Cells.closed);
 
   int cellStatus(int row, int column) => _cellsStatuses[row][column];
 
