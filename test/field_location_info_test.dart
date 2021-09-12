@@ -1,18 +1,8 @@
 import 'package:test/test.dart';
 import 'package:minesweeper_in_flutter/models/field_location_info.dart';
-import 'package:minesweeper_in_flutter/models/bomb_plant_advisor.dart';
 import 'package:minesweeper_in_flutter/models/cells.dart';
-
-class PredeterminedBombPlanAdvisor implements BombPlantAdvisor {
-  List<Position> positions;
-  int _index = 0;
-  PredeterminedBombPlanAdvisor(this.positions) {
-    assert(positions.isNotEmpty);
-  }
-
-  @override
-  Position suggestNextPosition() => positions[(_index++) % positions.length];
-}
+import 'package:minesweeper_in_flutter/models/bomb_plant_advisor.dart';
+import 'predetermined_bomb_plant_advisor.dart';
 
 void check(
     {required FieldLocationInfo field, required List<List<int>> values}) {
@@ -37,7 +27,7 @@ void main() {
             rows: 3,
             columns: 3,
             bombs: 1,
-            advisor: PredeterminedBombPlanAdvisor([
+            advisor: PredeterminedBombPlantAdvisor([
               Position(1, 1),
             ]),
           ),
@@ -53,7 +43,7 @@ void main() {
             rows: 3,
             columns: 3,
             bombs: 8,
-            advisor: PredeterminedBombPlanAdvisor([
+            advisor: PredeterminedBombPlantAdvisor([
               Position(0, 0),
               Position(0, 1),
               Position(0, 2),
@@ -76,7 +66,7 @@ void main() {
             rows: 5,
             columns: 5,
             bombs: 5,
-            advisor: PredeterminedBombPlanAdvisor([
+            advisor: PredeterminedBombPlantAdvisor([
               Position(0, 0),
               Position(1, 1),
               Position(2, 2),

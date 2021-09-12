@@ -1,24 +1,29 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:minesweeper_in_flutter/models/cells.dart';
+import 'package:minesweeper_in_flutter/models/field.dart';
+import 'package:minesweeper_in_flutter/models/field_location_info.dart';
+import 'package:minesweeper_in_flutter/models/random_bomb_plan_advisor.dart';
 
 class MineFieldModel with ChangeNotifier {
-  late List<List<int>> _cells;
-  MineFieldModel(int rows, int columns)
-      : _cells = List.generate(
-          rows,
-          (_) => List.filled(columns, Cells.closed),
-        ) {
-    assert(_cells.isNotEmpty);
-    assert(_cells.first.isNotEmpty);
+  Field field;
+  MineFieldModel({
+    required int rows,
+    required int columns,
+  }) : field = Field(
+            rows: rows,
+            columns: columns,
+            info: FieldLocationInfo.generate(
+                rows: rows,
+                columns: columns,
+                bombs: 10,
+                advisor: RandomBombPlantAdvisor(columns: columns, rows: rows)));
+  UnmodifiableListView<UnmodifiableListView<int>> get cells => field.cells;
+  int get rows => field.rows;
+  int get columns => field.columns;
+  int cell(int row, int column) => field.cellStatus(row, column);
+  void openCell(int row, int column) {
+    field.openCell(row, column);
+    notifyListeners();
   }
-  UnmodifiableListView<UnmodifiableListView<int>> get cells =>
-      UnmodifiableListView(
-        _cells.map(
-          (e) => UnmodifiableListView(e),
-        ),
-      );
-  int get rowCount => cells.length;
-  int get columnCount => cells.first.length;
 }

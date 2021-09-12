@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:minesweeper_in_flutter/models/cells.dart';
+import 'package:minesweeper_in_flutter/models/mine_field_model.dart';
+import 'package:provider/provider.dart';
 
-class MineCell extends StatelessWidget {
-  final int value;
+class MineTile extends StatelessWidget {
+  final int row;
+  final int column;
   final double size;
-  const MineCell({Key? key, required this.value, required this.size})
+  const MineTile(
+      {Key? key, required this.row, required this.column, required this.size})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var field = context.watch<MineFieldModel>();
+    var value = field.cell(row, column);
     return GestureDetector(
-      onTap: () {
-        //TODO: implement provider call
-        throw UnimplementedError();
-      },
+      onTap: () => field.openCell(row, column),
       child: Container(
         color: value == Cells.closed
             ? Colors.lightBlue.shade300

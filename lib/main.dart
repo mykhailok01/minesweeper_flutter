@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:minesweeper_in_flutter/widgets/game_page.dart';
 import 'package:provider/provider.dart';
-import 'package:minesweeper_in_flutter/models/mine_field_model.dart';
 import 'package:minesweeper_in_flutter/widgets/game_page.dart';
+import 'package:minesweeper_in_flutter/models/mine_field_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => MineFieldModel(10, 10),
+      create: (_) => MineFieldModel(rows: 9, columns: 9),
       child: MaterialApp(
         title: 'Minesweeper',
         theme: ThemeData(
