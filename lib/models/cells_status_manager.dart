@@ -29,6 +29,8 @@ class CellsStatusManager {
     }
 
     _discloseCellInfo(row, column);
+    if (_cellsStatuses[row][column] == Cells.bomb)
+      _cellsStatuses[row][column] = Cells.justOpenedBomb;
     return discloseCount;
   }
 
@@ -55,7 +57,9 @@ class CellsStatusManager {
   }
 
   int get disclosedBombCount {
-    return _count((status) => status == Cells.bomb);
+    return _count(
+      (status) => status == Cells.bomb || status == Cells.justOpenedBomb,
+    );
   }
 
   late List<List<int>> _cellsStatuses;

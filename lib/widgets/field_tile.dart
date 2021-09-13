@@ -18,15 +18,20 @@ class FieldTile extends StatelessWidget {
     return GestureDetector(
       onTap: () => field.discloseCell(row, column),
       child: Container(
-        color: value == Cells.closed
-            ? Colors.lightBlue.shade300
-            : Colors.lightBlue.shade50,
+        color: () {
+          if (value == Cells.closed)
+            return Colors.lightBlue.shade300;
+          else if (value == Cells.justOpenedBomb)
+            return Colors.redAccent.shade100;
+          return Colors.lightBlue.shade50;
+        }(),
         margin: const EdgeInsets.all(1),
         width: size - 2,
         height: size - 2,
         child: Builder(builder: (_) {
           switch (value) {
             case Cells.bomb:
+            case Cells.justOpenedBomb:
               return Icon(Icons.settings);
             case Cells.empty:
             case Cells.closed:

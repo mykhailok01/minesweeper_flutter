@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:minesweeper_in_flutter/models/cells.dart';
 import 'package:minesweeper_in_flutter/models/cells_status_manager.dart';
 import 'package:minesweeper_in_flutter/models/bombs_location_info.dart';
 import 'package:minesweeper_in_flutter/models/bomb_planter.dart';
@@ -39,6 +40,10 @@ class MinesweeperGame with ChangeNotifier {
   }
 
   int cellInfo(int row, int column) {
+    if (field.cellStatus(row, column) == Cells.justOpenedBomb)
+      return field.cellStatus(row, column);
+    if (status != GameStatus.ongoing && field.locationInfo.isBomb(row, column))
+      return field.locationInfo.getCellInfo(row, column);
     return field.cellStatus(row, column);
   }
 

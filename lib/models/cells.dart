@@ -1,5 +1,6 @@
 class Cells {
   Cells._();
+  static const justOpenedBomb = -3;
   static const closed = -2;
   static const bomb = -1;
   static const empty = 0;
