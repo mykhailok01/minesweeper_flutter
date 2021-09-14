@@ -42,7 +42,8 @@ class MinesweeperGame with ChangeNotifier {
   int cellInfo(int row, int column) {
     if (field.cellStatus(row, column) == Cells.justOpenedBomb)
       return field.cellStatus(row, column);
-    if (status != GameStatus.ongoing && field.locationInfo.isBomb(row, column))
+    if (status != GameStatus.ongoing &&
+        field.locationInfo.getCellInfo(row, column) == Cells.bomb)
       return field.locationInfo.getCellInfo(row, column);
     return field.cellStatus(row, column);
   }
