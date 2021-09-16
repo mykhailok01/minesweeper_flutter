@@ -18,19 +18,21 @@ class CellsStatusManager {
 
   int discloseCellInfo(int row, int column) {
     int discloseCount = 0;
-    void _discloseCellInfo(int row, int column) {
+    void _discloseCellInfo(
+        int row, int column, List<List<CellsStatus>> cellsStatuses) {
       if (row < 0 || row >= rows) return;
       if (column < 0 || column >= columns) return;
-      if (_cellsStatuses[row][column].val != Cells.closed) return;
-      _cellsStatuses[row][column] =
+      if (cellsStatuses[row][column].val != Cells.closed) return;
+      cellsStatuses[row][column] =
           CellsStatus(locationInfo.getCellInfo(row, column));
       ++discloseCount;
-      if (_cellsStatuses[row][column].val == Cells.empty) {
-        transformSurrounding(_cellsStatuses, row, column, _discloseCellInfo);
+      if (cellsStatuses[row][column].val == Cells.empty) {
+        transformSurrounding(cellsStatuses, row, column,
+            (row, column) => _discloseCellInfo(row, column, cellsStatuses));
       }
     }
 
-    _discloseCellInfo(row, column);
+    _discloseCellInfo(row, column, _cellsStatuses);
     if (_cellsStatuses[row][column].val == Cells.bomb)
       _cellsStatuses[row][column] = CellsStatus(Cells.justOpenedBomb);
     return discloseCount;
@@ -52,10 +54,6 @@ class CellsStatusManager {
 
   int get closedCount {
     return _count((status) => status.val == Cells.closed);
-  }
-
-  int get disclosedCount {
-    return cellsCount - closedCount;
   }
 
   int get disclosedBombCount {

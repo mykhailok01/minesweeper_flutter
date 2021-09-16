@@ -13,7 +13,6 @@ class GameAppBar extends StatelessWidget implements PreferredSizeWidget {
       case GameStatus.loosed:
         return '😐';
     }
-    assert(false);
   }
 
   @override
@@ -38,7 +37,7 @@ class GameAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           Text(
-            'Time: 10',
+            'Time: ${game.time.toString().padLeft(4, '0').substring(0, 4)}',
             style: TextStyle(fontSize: 20),
           ),
           ElevatedButton(
