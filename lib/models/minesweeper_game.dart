@@ -10,6 +10,7 @@ enum GameStatus {
   loosed,
   won,
   ongoing,
+  notStarted,
 }
 
 class MinesweeperGame with ChangeNotifier {
@@ -33,6 +34,7 @@ class MinesweeperGame with ChangeNotifier {
   int get bombs => _bombs;
 
   GameStatus get status {
+    if (_field.closedCount == _field.cellsCount) return GameStatus.notStarted;
     if (_field.disclosedBombCount > 0) return GameStatus.loosed;
     if (_field.closedCount == _field.locationInfo.bombs) return GameStatus.won;
     return GameStatus.ongoing;
@@ -44,13 +46,14 @@ class MinesweeperGame with ChangeNotifier {
     if (_field.cellStatus(row, column) == Cells.justOpenedBomb)
       return _field.cellStatus(row, column);
     if (status != GameStatus.ongoing &&
+        status != GameStatus.notStarted &&
         _field.locationInfo.getCellInfo(row, column) == Cells.bomb)
       return _field.locationInfo.getCellInfo(row, column);
     return _field.cellStatus(row, column);
   }
 
   void discloseCell(int row, int column) {
-    if (status == GameStatus.ongoing) {
+    if (status == GameStatus.ongoing || status == GameStatus.notStarted) {
       _field.discloseCellInfo(row, column);
       notifyListeners();
     }

@@ -9,6 +9,7 @@ class GameAppBar extends StatelessWidget implements PreferredSizeWidget {
       case GameStatus.won:
         return '😀';
       case GameStatus.ongoing:
+      case GameStatus.notStarted:
         return '🙂';
       case GameStatus.loosed:
         return '😐';
