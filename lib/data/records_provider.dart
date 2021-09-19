@@ -12,8 +12,8 @@ class Record {
   Record(this.dateTime, this.duration);
   Map<String, Object?> toMap() {
     var map = <String, Object?>{
-      columnDateTime: dateTime,
-      columnDuration: duration,
+      columnDateTime: dateTime.toIso8601String(),
+      columnDuration: duration.inSeconds,
     };
     if (id != null) {
       map[columnId] = id;
@@ -22,10 +22,10 @@ class Record {
   }
 
   Record.fromMap(Map<String, Object?> map) {
-    var localDateTime = map[columnDateTime] as DateTime?;
-    dateTime = localDateTime!;
-    var localDuration = map[columnDuration] as Duration?;
-    duration = localDuration!;
+    var localDateTime = map[columnDateTime] as String?;
+    dateTime = DateTime.parse(localDateTime!);
+    var localDuration = map[columnDuration] as int?;
+    duration = Duration(seconds: localDuration!);
     id = map[columnId] as int?;
   }
 }
@@ -64,6 +64,16 @@ class RecordProvider {
     if (maps.length == 0) return null;
 
     return Record.fromMap(maps.first);
+  }
+
+  Future<List<Record>> getRecords() async {
+    List<Map<String, Object?>> maps = await _db.query(
+      tableRecords,
+      columns: [columnId, columnDateTime, columnDuration],
+    );
+    List<Record> records = [];
+    for (var recordMap in maps) records.add(Record.fromMap(recordMap));
+    return records;
   }
 
   Future<int?> delete(int id) async {
