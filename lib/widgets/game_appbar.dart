@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minesweeper_in_flutter/widgets/records_page.dart';
 import 'package:provider/provider.dart';
 import 'package:minesweeper_in_flutter/models/minesweeper_game.dart';
 
@@ -42,7 +43,20 @@ class GameAppBar extends StatelessWidget implements PreferredSizeWidget {
             style: TextStyle(fontSize: 20),
           ),
           ElevatedButton(
-            onPressed: () => null, //TODO: implement menu
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    // return Provider(
+                    //   create: (BuildContext context) =>
+                    //       context.read<List<Record>>(),
+                    //   builder: (BuildContext context, Widget? child) =>
+                    return RecordsPage();
+                    // );
+                  },
+                ),
+              );
+            },
             child: Icon(Icons.menu, size: 30),
           ),
         ],
