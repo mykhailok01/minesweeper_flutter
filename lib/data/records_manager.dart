@@ -1,4 +1,5 @@
 import 'package:minesweeper_in_flutter/data/records_provider.dart';
+import 'package:minesweeper_in_flutter/models/minesweeper_game.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 
@@ -13,8 +14,14 @@ class RecordManager {
     return recordManager;
   }
 
-  Future<void> insert({required Record record}) async {
-    await _recordProvider.insert(record);
+  Future<void> insert({
+    required GameStatus status,
+    required Duration duration,
+  }) async {
+    if (_prevStatus != GameStatus.won && status == GameStatus.won) {
+      await _recordProvider.insert(Record(DateTime.now(), duration));
+    }
+    _prevStatus = status;
   }
 
   Future<List<Record>> getRecords() async {
@@ -22,4 +29,5 @@ class RecordManager {
   }
 
   late RecordProvider _recordProvider;
+  GameStatus _prevStatus = GameStatus.notStarted;
 }

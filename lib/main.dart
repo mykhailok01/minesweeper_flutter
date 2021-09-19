@@ -12,10 +12,17 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (BuildContext context) =>
-              MinesweeperGame(rows: 9, columns: 9, bombs: 10),
-        ),
+        ChangeNotifierProvider(create: (BuildContext context) {
+          var game = MinesweeperGame(rows: 9, columns: 9, bombs: 10);
+          game.addListener(() async {
+            print(game.status);
+            await recordManager.insert(
+              duration: Duration(seconds: game.time),
+              status: game.status,
+            );
+          });
+          return game;
+        }),
         FutureProvider<List<Record>>(
           initialData: [],
           create: (BuildContext context) => recordManager.getRecords(),

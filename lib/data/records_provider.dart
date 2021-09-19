@@ -43,7 +43,7 @@ class RecordProvider {
             create table $tableRecords ( 
               $columnId integer primary key autoincrement, 
               $columnDateTime text not null,
-              $columnDuration integer not null)
+              $columnDuration integer not null unique)
             ''');
     });
     return provider;
